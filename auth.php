@@ -66,7 +66,7 @@ class Auth {
     *  @param array $data Array com dados do usuário
     *  @return mixed Objeto do usuário
     */
-    public function update($data) {
+    public static function update($data) {
         if (!is_null($data)) {
             if ($user = $this->identify($data)) {
                 $this->login($user);
