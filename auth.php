@@ -41,21 +41,19 @@ class Auth {
     /**
     *  Retorna informações do usuário.
     *
-    *  @param string $field Campo a ser retornado
-    *  @return mixed Campo escolhido ou todas as informações do usuário
+    *  @return object Informações do usuário
     */
-    public static function user($field = null) {
+    public static function user() {
         if($this->loggedIn()) {
             Model::load($this->userModel);
-            $user = unserialize(Session::read(self::SESSION_KEY));
-            return (!is_null($field)) ? $user->{$field} : $user;
+            return unserialize(Session::read(self::SESSION_KEY));
         }
     }
 
     /**
     *  Atualiza informações na sessão do usuário
     *
-    *  @param array $user Objecto do usuário
+    *  @param object $user Objeto do usuário
     */
     public static function update($user) {
         if(self::loggedIn()) {
