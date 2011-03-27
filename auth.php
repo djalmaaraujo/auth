@@ -59,4 +59,23 @@ class Auth {
             return null;
         }
     }
+    
+    /**
+    *  Atualiza informações na sessão do usuário
+    *
+    *  @param array $data Array com dados do usuário
+    *  @return mixed Objeto do usuário
+    */
+    public function update($data) {
+        if (!is_null($data)) {
+            if ($user = $this->identify($data)) {
+                $this->login($user);
+                return $this->user();
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 }
