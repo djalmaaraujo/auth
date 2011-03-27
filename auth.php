@@ -1,21 +1,62 @@
 <?php
 
+/*
+    Class: Auth
+
+    Identifies and authenticates users using sessions.
+
+    Dependencies:
+        - Model
+        - Session
+        - Security
+*/
 class Auth {
+    /*
+        Constant: SESSION_KEY
+
+        Name of the key to be used to store the user's information in
+        the session.
+    */
     const SESSION_KEY = 'Auth.user';
 
-    /**
-    *  Nome do modelo a ser utilizado para a autenticação.
+    /*
+        Variable: $userModel
+
+        Name of the model used to identify users.
     */
     public static $userModel = 'Users';
 
-    /**
-    *  Nomes dos campos do modelo a serem usados na autenticação.
+    /*
+        Variable: $fields
+
+        Names of the columns used by the model to identify the user.
+        Defaults are: 'username' for the identifier used by the user
+        and 'password' for the user's password.
+
+        See Also:
+            <Auth::login>
     */
     public static $fields = array(
         'username' => 'username',
         'password' => 'password'
     );
 
+    /*
+        Method: login
+
+        Logs a user in using the data provided by the method's parameter.
+
+        Parameters:
+            $data - array containing at least the user's identifier and
+            its password. The array's keys are the same defined by
+            <Auth::$fields>
+
+        Returns:
+            True if the user was logged in. False instead.
+
+        See Also:
+            <Auth::$fields>
+    */
     public static function login($data) {
         $user = self::identify($data);
 
@@ -28,18 +69,41 @@ class Auth {
         }
     }
 
+    /*
+        Method: logout
+
+        Logs a user out by destroying the session.
+    */
     public static function logout() {
         Session::destroy();
     }
 
+    /*
+        Method: loggedIn
+
+        Verifies if the current user is logged in.
+
+        Returns:
+            True if the user is logged in. False instead.
+    */
     public static function loggedIn() {
         return !is_null(Session::read(self::SESSION_KEY));
     }
 
-    /**
-    *  Retorna informações do usuário.
-    *
-    *  @return object Informações do usuário
+    /*
+        Method: user
+
+        Returns the current logged in user. Be aware that the user info
+        may not be accurate, because it reflects the data stored in the
+        session, not the database. If you want to update the user's info,
+        use <Auth::update>.
+
+        Returns:
+            The current logged in user object, null if there is no user
+            logged in.
+
+        See Also:
+            <Auth::update>
     */
     public static function user() {
         if($this->loggedIn()) {
@@ -48,10 +112,16 @@ class Auth {
         }
     }
 
-    /**
-    *  Atualiza informações na sessão do usuário
-    *
-    *  @param object $user Objeto do usuário
+    /*
+        Method: update
+
+        Updates the user's object stored in the session.
+
+        Params:
+            $user - user's object.
+
+        See Also:
+            <Auth::user>
     */
     public static function update($user) {
         if(self::loggedIn()) {
