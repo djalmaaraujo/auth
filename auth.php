@@ -39,8 +39,19 @@ class Auth {
         return !is_null(Session::read(self::SESSION_KEY));
     }
 
-    public static function user() {
-        Model::load($this->userModel);
-        return unserialize(Session::read(self::SESSION_KEY));
+    /**
+    *  Retorna informações do usuário.
+    *
+    *  @param string $field Campo a ser retornado
+    *  @return mixed Campo escolhido ou todas as informações do usuário
+    */
+    public static function user($field = null) {
+        if ($this->loggedIn()) {
+            Model::load($this->userModel);
+            $user = unserialize(Session::read(self::SESSION_KEY));
+            return (!is_null($field)) ? $user->{$field} : $user;
+        } else {
+            return null;
+        }
     }
 }
