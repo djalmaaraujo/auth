@@ -3,6 +3,11 @@
 class Auth {
     const SESSION_KEY = 'Auth.user';
 
+		/**
+      *  Nome do modelo a ser utilizado para a autenticação.
+      */
+    public $userModel = "Users";
+
     public static function login($user) {
         Session::regenerate();
         Session::write(self::SESSION_KEY, serialize($user));
@@ -13,7 +18,7 @@ class Auth {
     }
 
     public static function identify($data) {
-        return Model::load('Users')->first(array(
+        return Model::load($this->userModel)->first(array(
             'conditions' => array(
                 'username' => $data['username'],
                 'password' => Security::hash($data['password'])
@@ -27,7 +32,7 @@ class Auth {
     }
 
     public static function user() {
-        Model::load('Users');
+        Model::load($this->userModel);
         return unserialize(Session::read(self::SESSION_KEY));
     }
 }
