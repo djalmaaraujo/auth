@@ -36,7 +36,12 @@ class Auth {
     }
 
     public static function loggedIn() {
-        return !is_null(Session::read(self::SESSION_KEY));
+        $user = !is_null(Session::read(self::SESSION_KEY));
+        if ($user) {
+            return $user;
+        } else {
+            return null;
+        }
     }
 
     /**
