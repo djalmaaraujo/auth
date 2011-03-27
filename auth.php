@@ -18,7 +18,7 @@ class Auth {
 
     public static function login($data) {
         $user = self::identify($data);
-        
+
         if($user) {
             self::writeSession($user);
             return true;
@@ -30,15 +30,6 @@ class Auth {
 
     public static function logout() {
         Session::destroy();
-    }
-
-    public static function identify($data) {
-        return Model::load($this->userModel)->first(array(
-            'conditions' => array(
-                self::$fields['username'] => $data[self::$fields['username']],
-                self::$fields['password'] => Security::hash($data[self::$fields['password']])
-            )
-        ));
     }
 
     public static function loggedIn() {
@@ -66,6 +57,15 @@ class Auth {
         if(self::loggedIn()) {
             self::writeSession($user);
         }
+    }
+
+    protected static function identify($data) {
+        return Model::load($this->userModel)->first(array(
+            'conditions' => array(
+                self::$fields['username'] => $data[self::$fields['username']],
+                self::$fields['password'] => Security::hash($data[self::$fields['password']])
+            )
+        ));
     }
 
     protected static function writeSession($user) {
