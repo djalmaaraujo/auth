@@ -16,8 +16,16 @@ class Auth {
         'password' => 'password'
     );
 
-    public static function login($user) {
-        self::writeSession($user);
+    public static function login($data) {
+        $user = self::identify($data);
+        
+        if($user) {
+            self::writeSession($user);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public static function logout() {
