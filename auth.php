@@ -1,5 +1,4 @@
 <?php
-
 class Auth {
     const SESSION_KEY = 'Auth.user';
 
