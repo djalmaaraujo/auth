@@ -12,7 +12,6 @@ class Auth {
     *  Nomes dos campos do modelo a serem usados na autenticação.
     */
     public $fields = array(
-        'id' => 'id',
         'username' => 'username',
         'password' => 'password'
     );
