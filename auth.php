@@ -3,19 +3,19 @@
 class Auth {
     const SESSION_KEY = 'Auth.user';
 
-		/**
-      *  Nome do modelo a ser utilizado para a autenticação.
-      */
-    public $userModel = "Users";
+	/**
+	*  Nome do modelo a ser utilizado para a autenticação.
+	*/
+	public $userModel = "Users";
 
-		/**
-      *  Nomes dos campos do modelo a serem usados na autenticação.
-      */
-    public $fields = array(
-        "id" => "id",
-        "username" => "username",
-        "password" => "password"
-    );
+	/**
+	*  Nomes dos campos do modelo a serem usados na autenticação.
+	*/
+	public $fields = array(
+		"id" => "id",
+		"username" => "username",
+		"password" => "password"
+	);
 
     public static function login($user) {
         Session::regenerate();
