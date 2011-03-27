@@ -6,12 +6,12 @@ class Auth {
     /**
     *  Nome do modelo a ser utilizado para a autenticação.
     */
-    public $userModel = 'Users';
+    public static $userModel = 'Users';
 
     /**
     *  Nomes dos campos do modelo a serem usados na autenticação.
     */
-    public $fields = array(
+    public static $fields = array(
         'username' => 'username',
         'password' => 'password'
     );
@@ -35,8 +35,8 @@ class Auth {
     public static function identify($data) {
         return Model::load($this->userModel)->first(array(
             'conditions' => array(
-                $this->fields['username'] => $data['username'],
-                $this->fields['password'] => Security::hash($data['password'])
+                self::$fields['username'] => $data[self::$fields['username']],
+                self::$fields['password'] => Security::hash($data[self::$fields['password']])
             )
         ));
     }
