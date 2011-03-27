@@ -18,8 +18,7 @@ class Auth {
     );
 
     public static function login($user) {
-        Session::regenerate();
-        Session::write(self::SESSION_KEY, serialize($user));
+        self::writeSession($user);
     }
 
     public static function logout() {
@@ -52,19 +51,20 @@ class Auth {
             return (!is_null($field)) ? $user->{$field} : $user;
         }
     }
-    
+
     /**
     *  Atualiza informações na sessão do usuário
     *
-    *  @param array $data Array com dados do usuário
-    *  @return mixed Objeto do usuário
+    *  @param array $user Objecto do usuário
     */
-    public static function update($data) {
-        if(!is_null($data)) {
-            if($user = $this->identify($data)) {
-                $this->login($user);
-                return $this->user();
-            }
+    public static function update($user) {
+        if(self::loggedIn()) {
+            self::writeSession($user);
         }
+    }
+
+    protected static function writeSession($user) {
+        Session::regenerate();
+        Session::write(self::SESSION_KEY, serialize($user));
     }
 }
