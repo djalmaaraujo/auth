@@ -1,4 +1,5 @@
 <?php
+
 class Auth {
     const SESSION_KEY = 'Auth.user';
 
@@ -35,13 +36,7 @@ class Auth {
     }
 
     public static function loggedIn() {
-        $user = !is_null(Session::read(self::SESSION_KEY));
-        if($user) {
-            return $user;
-        }
-        else {
-            return null;
-        }
+        return !is_null(Session::read(self::SESSION_KEY));
     }
 
     /**
@@ -55,9 +50,6 @@ class Auth {
             Model::load($this->userModel);
             $user = unserialize(Session::read(self::SESSION_KEY));
             return (!is_null($field)) ? $user->{$field} : $user;
-        }
-        else {
-            return null;
         }
     }
     
@@ -73,12 +65,6 @@ class Auth {
                 $this->login($user);
                 return $this->user();
             }
-            else {
-                return null;
-            }
-        }
-        else {
-            return null;
         }
     }
 }
