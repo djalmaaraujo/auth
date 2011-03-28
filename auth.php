@@ -129,6 +129,21 @@ class Auth {
         }
     }
 
+    /*
+        Method: identify
+
+        Query the model to get a user identified by a username/password
+        pair. The names of the fields are defined in <Auth::$fields>.
+
+        Params:
+            $data - user data. The array keys used are defined in <Auth::$fields>.
+
+        Returns:
+            The user's object if one is found, null otherwise.
+
+        See Also:
+            <Auth::$fields>
+    */
     protected static function identify($data) {
         return Model::load($this->userModel)->first(array(
             'conditions' => array(
@@ -138,6 +153,14 @@ class Auth {
         ));
     }
 
+    /*
+        Method: writeSession
+
+        Writes the serialized user's object to the session.
+
+        Params:
+            $user - user's object
+    */
     protected static function writeSession($user) {
         Session::regenerate();
         Session::write(self::SESSION_KEY, serialize($user));
