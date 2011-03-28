@@ -49,7 +49,7 @@ class Auth {
         Parameters:
             $data - array containing at least the user's identifier and
             its password. The array's keys are the same defined by
-            <Auth::$fields>
+            <Auth::$fields>.
 
         Returns:
             True if the user was logged in. False instead.
@@ -136,7 +136,8 @@ class Auth {
         pair. The names of the fields are defined in <Auth::$fields>.
 
         Params:
-            $data - user data. The array keys used are defined in <Auth::$fields>.
+            $data - user data. The array keys used are defined in
+            <Auth::$fields>.
 
         Returns:
             The user's object if one is found, null otherwise.
@@ -145,10 +146,11 @@ class Auth {
             <Auth::$fields>
     */
     protected static function identify($data) {
-        return Model::load($this->userModel)->first(array(
+        extract(self::$fields);
+        return Model::load(self::$userModel)->first(array(
             'conditions' => array(
-                self::$fields['username'] => $data[self::$fields['username']],
-                self::$fields['password'] => Security::hash($data[self::$fields['password']])
+                $username => $data[$username],
+                $password => Security::hash($data[$password])
             )
         ));
     }
@@ -159,7 +161,7 @@ class Auth {
         Writes the serialized user's object to the session.
 
         Params:
-            $user - user's object
+            $user - user's object.
     */
     protected static function writeSession($user) {
         Session::regenerate();
