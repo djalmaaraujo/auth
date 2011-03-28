@@ -75,7 +75,7 @@ class Auth {
         Logs a user out by destroying the session.
     */
     public static function logout() {
-        Session::destroy();
+        Session::delete(self::SESSION_KEY);
     }
 
     /*
