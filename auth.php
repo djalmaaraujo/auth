@@ -9,6 +9,22 @@
         - Model
         - Session
         - Security
+
+	Example:
+		- Inside your UsersController for an example, you can create you login method like the code bellow
+		(start code)
+		public function login() {
+			if ($data = $this->data) {
+				if ($user = Auth::login($data)) {
+					Sesion::flash('Auth.succes', 'You are now logged as ' . Auth::user()->name);
+					$this->redirect('/my-account');
+				} else {
+					Session::flash('Auth.error', 'Username or Password invalid');
+					$this->redirect('/login');
+				}
+			}
+		}
+		(end)
 */
 class Auth {
     /*
