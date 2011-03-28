@@ -27,6 +27,13 @@ class Auth {
     public static $userModel = 'Users';
 
     /*
+        Variable: $hash
+
+        Class and method to be used as a hash in authentication.
+    */
+    public static $hash = array('Security', 'hash');
+
+    /*
         Variable: $fields
 
         Names of the columns used by the model to identify the user.
@@ -150,7 +157,7 @@ class Auth {
         return Model::load(self::$userModel)->first(array(
             'conditions' => array(
                 $username => $data[$username],
-                $password => Security::hash($data[$password])
+                $password => call_user_func(self::$hash, array($data[$password]))
             )
         ));
     }
