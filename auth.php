@@ -5,26 +5,28 @@
 
     Identifies and authenticates users using sessions.
 
-    Dependencies:
-        - Model
-        - Session
-        - Security
+    Examples:
+        In your UsersController, for example, you can create you login method like the code bellow
 
-    Example:
-        - Inside your UsersController for an example, you can create you login method like the code bellow
         (start code)
         public function login() {
-            if ($data = $this->data) {
-                if ($user = Auth::login($data)) {
-                    Sesion::flash('Auth.succes', 'You are now logged as ' . Auth::user()->name);
+            if(!empty($this->data)) {
+                if(Auth::login($this->data)) {
+                    Sesion::flash('Auth.success', 'You are now logged as ' . Auth::user()->name);
                     $this->redirect('/my-account');
-                } else {
+                }
+                else {
                     Session::flash('Auth.error', 'Username or Password invalid');
                     $this->redirect('/login');
                 }
             }
         }
         (end)
+
+    Dependencies:
+        - Model
+        - Session
+        - Security
 */
 class Auth {
     /*
@@ -45,7 +47,9 @@ class Auth {
     /*
         Variable: $hash
 
-        Class and method to be used as a hash in authentication.
+        Hash method to be used in authentication. Its value can be any
+        valid <callback at http://br2.php.net/manual/en/language.pseudo-types.php#language.types.callback>,
+        including closures if you're using PHP 5.3+.
     */
     public static $hash = array('Security', 'hash');
 
